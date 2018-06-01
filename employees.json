@@ -1,0 +1,49 @@
+{
+	"Name": "334",
+	"LastName": "Smith",
+	"Age": 30,
+	"path": "John",
+	"Automations": [
+		{
+			"robotName": "A",
+			"savings": 1000,
+			"path": "John/0",
+			"technologies": [
+				{
+					"language": "java",
+					"version": "8",
+					"path": "John/0/0"
+				}
+			]
+		},
+		{
+			"robotName": "B",
+			"savings": 3000,
+			"path": "John/1",
+			"technologies": [
+				{
+					"language": "javaScript",
+					"version": "1.8.5",
+					"path": "John/1/0"
+				},
+				{
+					"language": "Angular",
+					"version": "5",
+					"path": "John/1/1"
+				}
+			]
+		},
+		{
+			"robotName": "C",
+			"savings": 500,
+			"path": "John/2",
+			"technologies": [
+				{
+					"language": "python",
+					"version": "3.6",
+					"path": "John/2/0"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<script src="jsoneditor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+<body>
+
+
+<textarea rows="4" cols="50" id ='editor'></textarea>
+<pre id="output"></pre>
+<button id='edit' width='50px;'>Edit</button>
+<button id='save'>Save</button>
+<button id='cancel'>Cancel</button>
+<button id='table'>Data Table</button>
+<div id='editor_holder' style='display:none;'></div>
+
+<script>
+var editor = new JSONEditor(document.getElementById('editor_holder'),{
+        schema: {
+          type: "object",
+          title: "Employees",
+          properties: {
+            make: {
+              type: "string",
+              enum: [
+              ]
+            },
+            model: {
+              type: "string"
+            },
+            year: {
+              type: "integer",
+              enum: [
+              ],
+            }
+          }
+        }
+      });
+
+
+
+      $(document).ready(function(){
+
+
+      // Hook up the submit button to log to the console
+	      $("#edit").click(function(){
+				$('#editor').css('display', 'block');
+				$('#output').css('display','none');
+
+			});
+
+			$("#cancel").click(function(){
+				$.get('employees.json', function(data) {
+				   $('#editor').val(data);
+				}, 'text');
+
+			});
+			$.get('employees.json', function(data) {
+			   $('#editor').val(data);
+			   $('#output').text(data);
+			   $('#editor').css('display','none');
+			   $('#output').css('display','block');
+
+			}, 'text');
+
+
+			$("#save").click(function(){
+				var data = JSON.stringify(editor.getValue(), null, '\t');
+				$('#output').text(data);
+				data = $('#output').text();
+				$.ajax({
+
+					type: "POST",
+					url: "write.php",
+
+					data:{'label':data},
+					success:function(msg){
+						location.reload();
+					},
+					failure: function(errMsg) {
+						alert(errMsg);
+					}
+				});
+
+			});
+			$("#table").click(function(){
+				$('#editor_holder').css('display','block');
+				var data =$('#editor').val();
+				var obj = $.parseJSON(data);
+				editor.setValue(obj);
+			});
+
+
+	  });
+</script>
+<style>
+.json-editor-btn-collapse,.json-editor-btn-edit, .json-editor-btn-add,.json-editor-btn-movedown,.json-editor-btn-delete,.json-editor-btn-moveup  {
+	display:none;
+}
+.json-editor-btn-delete.delete  {
+	display:block;
+}
+</style>
+</body>
+</html>
